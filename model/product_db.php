@@ -1,8 +1,8 @@
 <?php
 function get_products_by_category($category_id) {
     global $db;
-    $query = 'SELECT * FROM products
-              WHERE products.categoryID = :category_id
+    $query = 'SELECT * FROM products_guitar1
+              WHERE products_guitar1.categoryID = :category_id
               ORDER BY productID';
     $statement = $db->prepare($query);
     $statement->bindValue(":category_id", $category_id);
@@ -11,10 +11,9 @@ function get_products_by_category($category_id) {
     $statement->closeCursor();
     return $products;
 }
-
 function get_product($product_id) {
     global $db;
-    $query = 'SELECT * FROM products
+    $query = 'SELECT * FROM products_guitar1
               WHERE productID = :product_id';
     $statement = $db->prepare($query);
     $statement->bindValue(":product_id", $product_id);
@@ -23,20 +22,18 @@ function get_product($product_id) {
     $statement->closeCursor();
     return $product;
 }
-
 function delete_product($product_id) {
     global $db;
-    $query = 'DELETE FROM products
+    $query = 'DELETE FROM products_guitar1
               WHERE productID = :product_id';
     $statement = $db->prepare($query);
     $statement->bindValue(':product_id', $product_id);
     $statement->execute();
     $statement->closeCursor();
 }
-
 function add_product($category_id, $code, $name, $price) {
     global $db;
-    $query = 'INSERT INTO products
+    $query = 'INSERT INTO products_guitar1
                  (categoryID, productCode, productName, listPrice)
               VALUES
                  (:category_id, :code, :name, :price)';
