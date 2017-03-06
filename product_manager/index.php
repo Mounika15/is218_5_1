@@ -2,7 +2,6 @@
 require('../model/database.php');
 require('../model/product_db.php');
 require('../model/category_db.php');
-
 $action = filter_input(INPUT_POST, 'action');
 if ($action == NULL) {
     $action = filter_input(INPUT_GET, 'action');
@@ -10,7 +9,6 @@ if ($action == NULL) {
         $action = 'list_products';
     }
 }
-
 if ($action == 'list_products') {
     $category_id = filter_input(INPUT_GET, 'category_id', 
             FILTER_VALIDATE_INT);
@@ -51,5 +49,35 @@ if ($action == 'list_products') {
         add_product($category_id, $code, $name, $price);
         header("Location: .?category_id=$category_id");
     }
-}    
+}
+else if ($action == 'list_categories') {
+    $categories = get_categories();
+        include('category_list.php');
+}
+else if ($action == 'show_add_category_form'){
+include('category_add.php');
+}
+else if ($action == 'add_category'){
+$categoryName = filter_input(INPUT_POST, 'categoryName');
+if ($categoryName == NULL || $categoryName == FALSE) {
+$error = "Invalid category data. Enter data in category field.";
+include('../errors/error.php');
+}
+else{
+add_category($categoryName);
+header("Location: .?action=list_categories");
+}
+}
+else if ($action == 'delete_category') {
+$categoryID = filter_input(INPUT_POST, 'categoryID');
+    if($categoryID == NULL || $categoryID == FALSE){
+     $error = "Category id missing.";
+     include('../errors/error.php');
+     }
+else 
+{
+delete_category($categoryID);
+header("Location: .?action=list_categories");
+}
+}
 ?>
